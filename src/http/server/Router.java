@@ -22,7 +22,7 @@ public class Router
         }
         else if(httpRequest.getPath().compareTo("/listPokemon/search")==0 && httpRequest.getQueryString()!=null)
         {
-            String nameOfPokemon;
+            String nameOfPokemon= null;
             TypePokemon typeOne=null;
             TypePokemon typeTwo=null;
             ListPokemon listPokemon= WebServer.getListOfPokemon();
@@ -48,11 +48,11 @@ public class Router
                     typeTwo= TypePokemon.valueOf(httpRequest.getQueryString().get("type2"));
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
-                    return new HttpResponse(httpRequest.getHttpVersion(),400,statusCodeMap.get(400), null);
+                    return new HttpResponse(httpRequest.getHttpVersion(),400,statusCodeMap.get(400), "This type of Pokemon has not been discovered yet! Catch them all!");
                 }
             }
 
-            String htmlContent=listPokemon.getHtmlContent();
+            String htmlContent=listPokemon.getHtmlContent(nameOfPokemon,typeOne,typeTwo);
             HttpResponse httpResponse= new HttpResponse(httpRequest.getHttpVersion(),200,statusCodeMap.get(200),htmlContent);
             return httpResponse;
         }
