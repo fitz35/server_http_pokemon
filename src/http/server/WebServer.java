@@ -2,12 +2,16 @@
 
 package http.server;
 
+import http.server.Data.ListPokemon;
+import http.server.Data.Pokemon;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Example program from Chapter 1 Programming Spiders, Bots and Aggregators in
@@ -22,11 +26,13 @@ import java.util.ArrayList;
 public class WebServer {
 
   private  ServerSocket serverSocket;
+  private static ListPokemon listOfPokemon;
 
-  public WebServer()
-  {
 
+  public static ListPokemon getListOfPokemon() {
+    return listOfPokemon;
   }
+
 
   protected void start() {
 
@@ -68,6 +74,9 @@ public class WebServer {
         listOfUsableInputs[1]=listOfInputs.get(1);
         listOfUsableInputs[2]=listOfInputs.get(listOfInputs.size()-1);
          HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
+         listOfPokemon.createListPokemon();
+
+
 
 
         // Send the response

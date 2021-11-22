@@ -14,7 +14,7 @@ public class ListPokemon {
         this.createListPokemon();
     }
 
-    private void createListPokemon() {
+    public void createListPokemon() {
         listOfPokemon.add(new Pokemon("Salameche",TypePokemon.FEU,null));
         listOfPokemon.add(new Pokemon("Nidoqueen",TypePokemon.POISON,TypePokemon.SOL));
         listOfPokemon.add(new Pokemon("Arcanin",TypePokemon.FEU,null));
