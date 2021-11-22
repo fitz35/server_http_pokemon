@@ -49,7 +49,13 @@ public class ListPokemon {
             }
         }
 
-        s = s.replace("%", tabOfPokemon.toString());
+        String tabFormatted = tabOfPokemon.toString();
+
+        if(tabFormatted.compareTo("") == 0){
+            tabFormatted = "<tr>" + "<td colspan=\"3\">" + "No pokemon found !" + "</td>" + "</tr>";
+        }
+
+        s = s.replace("%", tabFormatted);
 
         return s;
     }
