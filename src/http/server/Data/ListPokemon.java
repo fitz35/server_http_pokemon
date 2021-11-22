@@ -1,13 +1,20 @@
 package http.server.Data;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ListPokemon {
-    ArrayList<Pokemon> listOfPokemon;
+    private final ArrayList<Pokemon> listOfPokemon;
 
+    public ListPokemon(){
+        this.listOfPokemon = new ArrayList<>();
+        this.createListPokemon();
+    }
 
-    public void createListPokemon() {
-        listOfPokemon = new ArrayList<Pokemon>();
+    private void createListPokemon() {
         listOfPokemon.add(new Pokemon("Salameche",TypePokemon.FEU,null));
         listOfPokemon.add(new Pokemon("Nidoqueen",TypePokemon.POISON,TypePokemon.SOL));
         listOfPokemon.add(new Pokemon("Arcanin",TypePokemon.FEU,null));
@@ -17,6 +24,30 @@ public class ListPokemon {
         listOfPokemon.add(new Pokemon("Méga-Pharamp",TypePokemon.DRAGON,TypePokemon.ELECTRIK));
         listOfPokemon.add(new Pokemon("Jungko",TypePokemon.PLANTE,null));
         listOfPokemon.add(new Pokemon("Florges",TypePokemon.FEE,null));
+    }
 
+    /**
+     * get the html representation of the list of pokemon
+     * @return the html representation of the list of pokemon
+     */
+    public String getHtmlContent(){
+        InputStream in = this.getClass().getClassLoader()
+                .getResourceAsStream("html/getAllPokemon.html");
+        String s = new BufferedReader(new InputStreamReader(in))
+                .lines().collect(Collectors.joining("\n"));
+
+        StringBuilder tabOfPokemon = new StringBuilder();
+
+        for(Pokemon pokemon : this.listOfPokemon){
+            tabOfPokemon.append("<tr>");
+            tabOfPokemon.append("<td>").append(pokemon.getName()).append("</td>");
+            tabOfPokemon.append("<td>").append(pokemon.getType1()).append("</td>");
+            tabOfPokemon.append("<td>").append(pokemon.getType2() == null ? "" : pokemon.getType2()).append("</td>");
+            tabOfPokemon.append("/<tr>");
+        }
+
+        s = s.replace("%", tabOfPokemon.toString());
+
+        return s;
     }
 }
