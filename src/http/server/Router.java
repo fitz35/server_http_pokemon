@@ -1,6 +1,7 @@
 package http.server;
 
 import http.server.Data.ListPokemon;
+import http.server.Data.Pokemon;
 import http.server.Data.TypePokemon;
 
 import java.net.ServerSocket;
@@ -79,35 +80,59 @@ public class Router
         }
     }
 
-  /*  public static HttpResponse post(HttpRequest httpRequest)
-    {
-        String body= httpRequest.getBody();
-        String[] dataGroup= body.split("&");
-        if(httpRequest.getBody().containsKey("name"))
-        {
-            nameOfPokemon= httpRequest.getQueryString().get("name");
+    public static HttpResponse post(HttpRequest httpRequest) {
+        if (httpRequest.getPath().compareTo("/listPokemon/add") == 0 && httpRequest.getQueryString() != null) {
+            String nameOfPokemon = null;
+            TypePokemon typeOne = null;
+            TypePokemon typeTwo = null;
+            String body = httpRequest.getBody();
+            String[] dataGroup = body.split("&");
+            HashMap<String, String> mapOfValues = new HashMap<>();
+            for (String s : dataGroup) {
+                String[] keyValuePair = s.split("=");
+                mapOfValues.put(keyValuePair[0], keyValuePair[1]);
+            }
+            if (mapOfValues.containsKey("name")) {
+                nameOfPokemon = mapOfValues.get("name");
 
+                if (mapOfValues.containsKey("type1")) {
+                    try {
+                        typeOne = TypePokemon.valueOf(mapOfValues.get("type1"));
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                        return new HttpResponse(httpRequest.getHttpVersion(), 400, "This type of Pokemon has not been discovered yet! Catch them all!");
+                    }
+                }
+                if (mapOfValues.containsKey("type2")) {
+                    try {
+                        typeTwo = TypePokemon.valueOf(mapOfValues.get("type2"));
+                        if(typeOne.compareTo(typeTwo)==0)
+                        {
+                            return new HttpResponse(httpRequest.getHttpVersion(), 401, "The first and second types should be different");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                        return new HttpResponse(httpRequest.getHttpVersion(), 400, "This type of Pokemon has not been discovered yet! Catch them all!");
+                    }
+                }
+                Pokemon newPokemon = new Pokemon(nameOfPokemon, typeOne, typeTwo);
+                WebServer.getListOfPokemon().addPokemon(newPokemon);
 
-        }
-        if(httpRequest.getQueryString().containsKey("type1"))
-        {
-            try
+                HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, "Your Pokemon"+nameOfPokemon + "of type"+ typeOne+"and type"+ typeTwo+"has been created");
+                return httpResponse;
+
+            }
+            else
             {
-                typeOne= TypePokemon.valueOf(httpRequest.getQueryString().get("type1"));
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                return new HttpResponse(httpRequest.getHttpVersion(),400, "This type of Pokemon has not been discovered yet! Catch them all!");
+                return new HttpResponse(httpRequest.getHttpVersion(), 401, "Your Pokemon should have a name!");
+
             }
         }
-        if(httpRequest.getQueryString().containsKey("type2"))
+        else
         {
-            try
-            {
-                typeTwo= TypePokemon.valueOf(httpRequest.getQueryString().get("type2"));
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                return new HttpResponse(httpRequest.getHttpVersion(),400, "This type of Pokemon has not been discovered yet! Catch them all!");
-            }
-    }*/
+            return new HttpResponse(httpRequest.getHttpVersion(), 404, null);
+        }
+    }
+
 
 }
