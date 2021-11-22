@@ -50,4 +50,28 @@ public class HttpRequest {
         }
 
     }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getHttpVersion() {
+        return httpVersion;
+    }
+
+    public HashMap<String, String> getQueryString() {
+        return queryString;
+    }
+
+    public String getBody() {
+        return body;
+    }
 }
