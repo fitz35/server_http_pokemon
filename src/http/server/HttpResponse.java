@@ -1,20 +1,18 @@
 package http.server;
 
 import java.util.HashMap;
-import java.util.Map;
 
-public class HttpResponse
-{
+public class HttpResponse {
     private String httpVersion;
     private int statusCode;
     private String textStatusCode;
-    private HashMap header;
+    private HashMap<String, String> header;
     private String body;
     public static HashMap<Integer,String> statusCodeMap;
 
     public void createStatusCodeMap()
     {
-        statusCodeMap= new HashMap<Integer, String>();
+        statusCodeMap= new HashMap<>();
         statusCodeMap.put(200 , "OK");
         statusCodeMap.put(400 , "Bad Request");
         statusCodeMap.put(401 , "Unauthorized");
@@ -27,7 +25,7 @@ public class HttpResponse
 
     }
 
-    public HttpResponse(String httpVersion, int statusCode, String textStatusCode, HashMap header, String body) {
+    public HttpResponse(String httpVersion, int statusCode, String textStatusCode, HashMap<String, String> header, String body) {
         this.httpVersion = httpVersion;
         this.statusCode = statusCode;
         this.textStatusCode = textStatusCode;

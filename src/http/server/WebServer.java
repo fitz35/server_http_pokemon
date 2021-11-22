@@ -67,7 +67,7 @@ public class WebServer {
         listOfUsableInputs[0]= listOfInputs.get(0);
         listOfUsableInputs[1]=listOfInputs.get(1);
         listOfUsableInputs[2]=listOfInputs.get(listOfInputs.size()-1);
-         HttpRequest httpRequest=HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
+         HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
 
 
         // Send the response

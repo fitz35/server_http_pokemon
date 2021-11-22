@@ -1,10 +1,8 @@
 package http.server;
 
-public enum Method
-{
+public enum Method {
     GET,
     POST,
     PUT,
     DELETE;
-
 }

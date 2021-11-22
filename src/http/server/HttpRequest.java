@@ -1,18 +1,16 @@
 package http.server;
 
 import java.util.HashMap;
-import java.util.Map;
 
-public class HttpRequest
-{
-    private static Method method;
-    private static String host;
-    private static String path;
-    private static String httpVersion;
-    private static HashMap queryString;
-    private static String body;
+public class HttpRequest {
+    private final Method method;
+    private final String host;
+    private final String path;
+    private final String httpVersion;
+    private final HashMap<String, String> queryString;
+    private final String body;
 
-    public HttpRequest(Method method, String host, String path, String httpVersion, HashMap queryString, String body) {
+    public HttpRequest(Method method, String host, String path, String httpVersion, HashMap<String, String> queryString, String body) {
         this.method = method;
         this.host = host;
         this.path = path;
@@ -26,23 +24,24 @@ public class HttpRequest
         String[] parts1 = request[0].split(" ");
         try
         {
-            method= Method.valueOf( parts1[0]);
-            httpVersion=parts1[2];
+            Method method= Method.valueOf( parts1[0]);
+            String httpVersion=parts1[2];
             String[] parts11 = parts1[1].split("\\?");
-            path=parts11[0];
+            String path=parts11[0];
             String[] parts111 = parts11[1].split("&");
+            HashMap<String, String> queryStringTemp = new HashMap<>();
             for(String s: parts111)
             {
                 String[] keyValue=s.split("=");
                 String key=keyValue[0];
                 String value= keyValue[1];
-                queryString.put(key, value);
+                queryStringTemp.put(key, value);
             }
             String[] parts2 = request[1].split(":");
-            host= parts2[1];
-            body=request[2];
+            String host= parts2[1];
+            String body=request[2];
 
-            return new HttpRequest(method,host,path,httpVersion,queryString,body);
+            return new HttpRequest(method,host,path,httpVersion,queryStringTemp,body);
 
         }
         catch (IllegalArgumentException e) {
