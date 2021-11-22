@@ -52,14 +52,16 @@ public class HttpResponse {
         String line1= this.httpVersion+ this.statusCode+ statusCodeMap.get(statusCode);
         String line2= "Content-Type: text/html";
         String contentLength;
-        if(body!=null)
+        String body= "";
+        if(this.body!=null)
         {
-             contentLength= "Content-Type: "+ body.length();
+             contentLength= "Content-Type: "+ this.body.length();
+             body = this.body;
         }
         else {
              contentLength = "Content-Type: " + "null";
         }
-        String body= this.body;
+
 
         out.println(line1);
         out.println(line2);
