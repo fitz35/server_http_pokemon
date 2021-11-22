@@ -58,6 +58,18 @@ public class ListPokemon {
 
         s = s.replace("%", tabFormatted);
 
+        StringBuilder selectTypeBuilder = new StringBuilder();
+
+        for(TypePokemon type: TypePokemon.values()){
+            String toDisplay = type.toString();
+            if(type == TypePokemon.NOTYPE){
+                toDisplay = "NO TYPE";
+            }
+            selectTypeBuilder.append("<option value=\"").append(type).append("\">").append(toDisplay).append("</option>");
+        }
+
+        s = s.replace("/type/", selectTypeBuilder.toString());
+
         return s;
     }
 

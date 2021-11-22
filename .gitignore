@@ -32,6 +32,7 @@ target/
 # Compiled Files
 *.class
 bin/
+out/
 build/
 /bin1/
 java/build/**
