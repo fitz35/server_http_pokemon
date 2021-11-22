@@ -16,7 +16,9 @@ public class Router
 
         if (callMethod.compareTo(Method.GET)==0){
                 return get(httpRequest);
-            }
+        }else if(callMethod.compareTo(Method.POST)==0){
+            return post(httpRequest);
+        }
         else
         {
             return new HttpResponse(httpRequest.getHttpVersion(),404, null);
@@ -81,7 +83,7 @@ public class Router
     }
 
     public static HttpResponse post(HttpRequest httpRequest) {
-        if (httpRequest.getPath().compareTo("/listPokemon/add") == 0 && httpRequest.getQueryString() != null) {
+        if (httpRequest.getPath().compareTo("/listPokemon") == 0 && httpRequest.getQueryString() == null) {
             String nameOfPokemon = null;
             TypePokemon typeOne = null;
             TypePokemon typeTwo = null;
@@ -92,6 +94,7 @@ public class Router
                 String[] keyValuePair = s.split("=");
                 mapOfValues.put(keyValuePair[0], keyValuePair[1]);
             }
+            System.out.println(mapOfValues);
             if (mapOfValues.containsKey("name")) {
                 nameOfPokemon = mapOfValues.get("name");
 
@@ -118,7 +121,7 @@ public class Router
                 Pokemon newPokemon = new Pokemon(nameOfPokemon, typeOne, typeTwo);
                 WebServer.getListOfPokemon().addPokemon(newPokemon);
 
-                HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, "Your Pokemon"+nameOfPokemon + "of type"+ typeOne+"and type"+ typeTwo+"has been created");
+                HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200,  WebServer.getListOfPokemon().getHtmlContent());
                 return httpResponse;
 
             }

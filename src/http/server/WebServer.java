@@ -72,9 +72,11 @@ public class WebServer {
         String[]listOfUsableInputs= new String[3];
         listOfUsableInputs[0]= listOfInputs.get(0);
         listOfUsableInputs[1]=listOfInputs.get(1);
-        listOfUsableInputs[2]=listOfInputs.get(listOfInputs.size()-1);
+        listOfUsableInputs[2]=listOfInputs.get(listOfInputs.size() - 1);
+
+
         System.out.println("listOfUsableInputs: "+listOfUsableInputs[0]+","+listOfUsableInputs[1]+","+listOfUsableInputs[2]);
-         HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
+         HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs,in);
          HttpResponse httpResponse= Router.differentiateCallMethods(httpRequest);
          httpResponse.sendHttpResponse(out);
 

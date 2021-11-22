@@ -1,5 +1,8 @@
 package http.server;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.HashMap;
 
 public class HttpRequest {
@@ -19,7 +22,7 @@ public class HttpRequest {
         this.body = body;
     }
 
-    public static HttpRequest convertRequestToHttpRequest(String[] request)
+    public static HttpRequest convertRequestToHttpRequest(String[] request, BufferedReader in)
     {
         HashMap<String, String> queryStringTemp= null;
         String[] parts1 = request[0].split(" ");
@@ -48,12 +51,22 @@ public class HttpRequest {
             }
             String[] parts2 = request[1].split(":");
             String host= parts2[1];
-            String body=request[2];
+
+            String body = null;
+            if(method == Method.POST){
+                StringBuilder payload = new StringBuilder();
+                while(in.ready()){
+                    payload.append((char) in.read());
+                }
+                body = payload.toString();
+                System.out.println("body : " + body);
+            }
+
 
             return new HttpRequest(method,host,path,httpVersion,queryStringTemp,body);
 
         }
-        catch (IllegalArgumentException e) {
+        catch (IllegalArgumentException | IOException e) {
             e.printStackTrace();
             return null;
         }

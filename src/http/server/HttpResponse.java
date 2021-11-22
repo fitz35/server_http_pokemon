@@ -49,7 +49,7 @@ public class HttpResponse {
 
     public void sendHttpResponse(PrintWriter out)
     {
-        String line1= this.httpVersion+ this.statusCode+ statusCodeMap.get(statusCode);
+        String line1= this.httpVersion+ " " + this.statusCode+ " " + statusCodeMap.get(statusCode);
         String line2= "Content-Type: text/html";
         String contentLength;
         String body= "";

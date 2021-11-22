@@ -35,7 +35,7 @@ public class ListPokemon {
      */
     public String getHtmlContent(String name, TypePokemon type1, TypePokemon type2){
         InputStream in = this.getClass().getClassLoader()
-                .getResourceAsStream("html/getAllPokemon.html");
+                .getResourceAsStream("html_template/getAllPokemon.html");
         String s = new BufferedReader(new InputStreamReader(in))
                 .lines().collect(Collectors.joining("\n"));
 
