@@ -48,12 +48,12 @@ public class Router
                     typeTwo= TypePokemon.valueOf(httpRequest.getQueryString().get("type2"));
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
-                    return new HttpResponse(httpRequest.getHttpVersion(),400,statusCodeMap.get(400), "This type of Pokemon has not been discovered yet! Catch them all!");
+                    return new HttpResponse(httpRequest.getHttpVersion(),400, "This type of Pokemon has not been discovered yet! Catch them all!");
                 }
             }
 
             String htmlContent=listPokemon.getHtmlContent(nameOfPokemon,typeOne,typeTwo);
-            HttpResponse httpResponse= new HttpResponse(httpRequest.getHttpVersion(),200,statusCodeMap.get(200),htmlContent);
+            HttpResponse httpResponse= new HttpResponse(httpRequest.getHttpVersion(),200,htmlContent);
             return httpResponse;
         }
         else
