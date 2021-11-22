@@ -28,10 +28,10 @@ public class HttpResponse {
         return statusCodeMap;
     }
 
-    public HttpResponse(String httpVersion, int statusCode, String textStatusCode, String body) {
+    public HttpResponse(String httpVersion, int statusCode, String body) {
         this.httpVersion = httpVersion;
         this.statusCode = statusCode;
-        this.textStatusCode = textStatusCode;
+        this.textStatusCode = statusCodeMap.get(this.statusCode);
         this.body = body;
     }
 }
