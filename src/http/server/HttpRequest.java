@@ -21,21 +21,30 @@ public class HttpRequest {
 
     public static HttpRequest convertRequestToHttpRequest(String[] request)
     {
+        HashMap<String, String> queryStringTemp= null;
         String[] parts1 = request[0].split(" ");
+        String path=null;
         try
         {
             Method method= Method.valueOf( parts1[0]);
             String httpVersion=parts1[2];
+
+
             String[] parts11 = parts1[1].split("\\?");
-            String path=parts11[0];
-            String[] parts111 = parts11[1].split("&");
-            HashMap<String, String> queryStringTemp = new HashMap<>();
-            for(String s: parts111)
+            path=parts11[0];
+            if(parts11[0].compareTo(parts1[1])!=0)
             {
-                String[] keyValue=s.split("=");
-                String key=keyValue[0];
-                String value= keyValue[1];
-                queryStringTemp.put(key, value);
+                String[] parts111 = parts11[1].split("&");
+                queryStringTemp = new HashMap<>();
+
+                for(String s: parts111)
+                {
+                    String[] keyValue=s.split("=");
+                    String key=keyValue[0];
+                    String value= keyValue[1];
+                    queryStringTemp.put(key, value);
+                    System.out.println("key:"+key+"value"+value);
+                }
             }
             String[] parts2 = request[1].split(":");
             String host= parts2[1];

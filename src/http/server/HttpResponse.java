@@ -1,15 +1,17 @@
 package http.server;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class HttpResponse {
     private String httpVersion;
     private int statusCode;
-    private String textStatusCode;
     private String body;
+    private String textStatusCode;
     private static HashMap<Integer,String> statusCodeMap;
 
-    public void createStatusCodeMap()
+    public static void createStatusCodeMap()
     {
         statusCodeMap= new HashMap<>();
         statusCodeMap.put(200 , "OK");
@@ -33,5 +35,38 @@ public class HttpResponse {
         this.statusCode = statusCode;
         this.textStatusCode = statusCodeMap.get(this.statusCode);
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpResponse{" +
+                "httpVersion='" + httpVersion + '\'' +
+                ", statusCode=" + statusCode +
+                ", body='" + body + '\'' +
+                ", textStatusCode='" + textStatusCode + '\'' +
+                '}';
+    }
+
+    public void sendHttpResponse(PrintWriter out)
+    {
+        String line1= this.httpVersion+ this.statusCode+ statusCodeMap.get(statusCode);
+        String line2= "Content-Type: text/html";
+        String contentLength;
+        if(body!=null)
+        {
+             contentLength= "Content-Type: "+ body.length();
+        }
+        else {
+             contentLength = "Content-Type: " + "null";
+        }
+        String body= this.body;
+
+        out.println(line1);
+        out.println(line2);
+        out.println(contentLength);
+        out.println();
+        out.println(body);
+        out.flush();
+
     }
 }

@@ -46,6 +46,8 @@ public class WebServer {
       System.out.println("Error: " + e);
       return;
     }
+    listOfPokemon= new ListPokemon();
+    HttpResponse.createStatusCodeMap();
 
     System.out.println("Waiting for connection");
     for (;;) {
@@ -58,40 +60,34 @@ public class WebServer {
             remote.getInputStream()));
         PrintWriter out = new PrintWriter(remote.getOutputStream());
 
-        // read the data sent. We basically ignore it,
-        // stop reading once a blank line is hit. This
-        // blank line signals the end of the client HTTP
-        // headers.
         String str = ".";
         ArrayList<String> listOfInputs= new ArrayList<>();
         while (str != null && !str.equals(""))
         {
           str = in.readLine();
           listOfInputs.add(str);
+
         }
+        System.out.println(listOfInputs);
         String[]listOfUsableInputs= new String[3];
         listOfUsableInputs[0]= listOfInputs.get(0);
         listOfUsableInputs[1]=listOfInputs.get(1);
         listOfUsableInputs[2]=listOfInputs.get(listOfInputs.size()-1);
+        System.out.println("listOfUsableInputs: "+listOfUsableInputs[0]+","+listOfUsableInputs[1]+","+listOfUsableInputs[2]);
          HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
-         listOfPokemon.createListPokemon();
-
+         HttpResponse httpResponse= Router.differentiateCallMethods(httpRequest);
+         httpResponse.sendHttpResponse(out);
 
 
 
         // Send the response
-        // Send the headers
-        out.println("HTTP/1.0 200 OK");
-        out.println("Content-Type: text/html");
-        out.println("Server: Bot");
-        // this blank line signals the end of the headers
-        out.println("");
+
         // Send the HTML page
-        out.println("<H1>Welcome to the Ultra Mini-WebServer</H2>");
-        out.flush();
+
+
         remote.close();
       } catch (Exception e) {
-        System.out.println("Error: " + e);
+        e.printStackTrace();
       }
     }
   }

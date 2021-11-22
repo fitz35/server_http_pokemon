@@ -14,7 +14,7 @@ public class ListPokemon {
         this.createListPokemon();
     }
 
-    private void createListPokemon() {
+    public void createListPokemon() {
         listOfPokemon.add(new Pokemon("Salameche",TypePokemon.FEU, TypePokemon.NOTYPE));
         listOfPokemon.add(new Pokemon("Nidoqueen",TypePokemon.POISON,TypePokemon.SOL));
         listOfPokemon.add(new Pokemon("Arcanin",TypePokemon.FEU, TypePokemon.NOTYPE));
@@ -42,10 +42,11 @@ public class ListPokemon {
         StringBuilder tabOfPokemon = new StringBuilder();
 
         for(Pokemon pokemon : this.listOfPokemon){
-            if((name == null || name.compareTo(pokemon.getHtmlContent()) == 0) &&
+            if((name == null || name.compareTo(pokemon.getName()) == 0) &&
                     (type1 == null || pokemon.isType(type1)) &&
                     (type2 == null || pokemon.isType(type2))){
                 tabOfPokemon.append(pokemon.getHtmlContent());
+                System.out.println(pokemon.getHtmlContent());
             }
         }
 
@@ -71,4 +72,6 @@ public class ListPokemon {
     public String getHtmlContent(){
         return this.getHtmlContent(null, null, null);
     }
+
+    public void addPokemon(Pokemon newPokemon) {listOfPokemon.add(newPokemon);}
 }
