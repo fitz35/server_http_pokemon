@@ -15,22 +15,25 @@ public class ListPokemon {
     }
 
     private void createListPokemon() {
-        listOfPokemon.add(new Pokemon("Salameche",TypePokemon.FEU,null));
+        listOfPokemon.add(new Pokemon("Salameche",TypePokemon.FEU, TypePokemon.NOTYPE));
         listOfPokemon.add(new Pokemon("Nidoqueen",TypePokemon.POISON,TypePokemon.SOL));
-        listOfPokemon.add(new Pokemon("Arcanin",TypePokemon.FEU,null));
-        listOfPokemon.add(new Pokemon("Otaria",TypePokemon.EAU,null));
-        listOfPokemon.add(new Pokemon("Osselait",TypePokemon.SOL,null));
-        listOfPokemon.add(new Pokemon("Macronium",TypePokemon.PLANTE,null));
-        listOfPokemon.add(new Pokemon("Méga-Pharamp",TypePokemon.DRAGON,TypePokemon.ELECTRIK));
-        listOfPokemon.add(new Pokemon("Jungko",TypePokemon.PLANTE,null));
-        listOfPokemon.add(new Pokemon("Florges",TypePokemon.FEE,null));
+        listOfPokemon.add(new Pokemon("Arcanin",TypePokemon.FEU, TypePokemon.NOTYPE));
+        listOfPokemon.add(new Pokemon("Otaria",TypePokemon.EAU, TypePokemon.NOTYPE));
+        listOfPokemon.add(new Pokemon("Osselait",TypePokemon.SOL, TypePokemon.NOTYPE));
+        listOfPokemon.add(new Pokemon("Macronium",TypePokemon.PLANTE, TypePokemon.NOTYPE));
+        listOfPokemon.add(new Pokemon("Méga-Pharamp",TypePokemon.DRAGON, TypePokemon.ELECTRIK));
+        listOfPokemon.add(new Pokemon("Jungko",TypePokemon.PLANTE, TypePokemon.NOTYPE));
+        listOfPokemon.add(new Pokemon("Florges",TypePokemon.FEE, TypePokemon.NOTYPE));
     }
 
     /**
-     * get the html representation of the list of pokemon
+     * get the html representation of the list of pokemon with filter
+     * @param name filter on name
+     * @param type1 filter on first type
+     * @param type2 filter on second type
      * @return the html representation of the list of pokemon
      */
-    public String getHtmlContent(){
+    public String getHtmlContent(String name, TypePokemon type1, TypePokemon type2){
         InputStream in = this.getClass().getClassLoader()
                 .getResourceAsStream("html/getAllPokemon.html");
         String s = new BufferedReader(new InputStreamReader(in))
@@ -39,15 +42,27 @@ public class ListPokemon {
         StringBuilder tabOfPokemon = new StringBuilder();
 
         for(Pokemon pokemon : this.listOfPokemon){
-            tabOfPokemon.append("<tr>");
-            tabOfPokemon.append("<td>").append(pokemon.getName()).append("</td>");
-            tabOfPokemon.append("<td>").append(pokemon.getType1()).append("</td>");
-            tabOfPokemon.append("<td>").append(pokemon.getType2() == null ? "" : pokemon.getType2()).append("</td>");
-            tabOfPokemon.append("/<tr>");
+            if((name == null || name.compareTo(pokemon.getHtmlContent()) == 0) &&
+                    (type1 == null || pokemon.isType(type1)) &&
+                    (type2 == null || pokemon.isType(type2))){
+                tabOfPokemon.append(pokemon.getHtmlContent());
+            }
         }
 
         s = s.replace("%", tabOfPokemon.toString());
 
         return s;
+    }
+
+    public String getHtmlContent(String name, TypePokemon type1){
+        return this.getHtmlContent(name, type1, null);
+    }
+
+    public String getHtmlContent(String name){
+        return this.getHtmlContent(name, null, null);
+    }
+
+    public String getHtmlContent(){
+        return this.getHtmlContent(null, null, null);
     }
 }
