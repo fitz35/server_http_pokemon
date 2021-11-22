@@ -6,9 +6,8 @@ public class HttpResponse {
     private String httpVersion;
     private int statusCode;
     private String textStatusCode;
-    private HashMap<String, String> header;
     private String body;
-    public static HashMap<Integer,String> statusCodeMap;
+    private static HashMap<Integer,String> statusCodeMap;
 
     public void createStatusCodeMap()
     {
@@ -25,11 +24,14 @@ public class HttpResponse {
 
     }
 
-    public HttpResponse(String httpVersion, int statusCode, String textStatusCode, HashMap<String, String> header, String body) {
+    public static HashMap<Integer, String> getStatusCodeMap() {
+        return statusCodeMap;
+    }
+
+    public HttpResponse(String httpVersion, int statusCode, String textStatusCode, String body) {
         this.httpVersion = httpVersion;
         this.statusCode = statusCode;
         this.textStatusCode = textStatusCode;
-        this.header = header;
         this.body = body;
     }
 }
