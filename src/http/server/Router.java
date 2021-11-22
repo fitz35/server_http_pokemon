@@ -17,7 +17,7 @@ public class Router
         {
             ListPokemon listPokemon= WebServer.getListOfPokemon();
             String htmlContent=listPokemon.getHtmlContent();
-            HttpResponse httpResponse= new HttpResponse(httpRequest.getHttpVersion(),200,statusCodeMap.get(200),htmlContent);
+            HttpResponse httpResponse= new HttpResponse(httpRequest.getHttpVersion(),200,htmlContent);
             return httpResponse;
         }
         else if(httpRequest.getPath().compareTo("/listPokemon/search")==0 && httpRequest.getQueryString()!=null)
@@ -38,7 +38,7 @@ public class Router
                     typeOne= TypePokemon.valueOf(httpRequest.getQueryString().get("type1"));
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
-                    return new HttpResponse(httpRequest.getHttpVersion(),400,statusCodeMap.get(400), "This type of Pokemon has not been discovered yet! Catch them all!");
+                    return new HttpResponse(httpRequest.getHttpVersion(),400, "This type of Pokemon has not been discovered yet! Catch them all!");
                 }
             }
             if(httpRequest.getQueryString().containsKey("type2"))
@@ -58,7 +58,7 @@ public class Router
         }
         else
         {
-            return new HttpResponse(httpRequest.getHttpVersion(),404,statusCodeMap.get(404), null);
+            return new HttpResponse(httpRequest.getHttpVersion(),404, null);
         }
     }
 }
