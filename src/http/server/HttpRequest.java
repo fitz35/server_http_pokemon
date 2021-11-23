@@ -22,7 +22,7 @@ public class HttpRequest {
         this.body = body;
     }
 
-    public static HttpRequest convertRequestToHttpRequest(String[] request, BufferedReader in)
+    public static HttpRequest convertRequestToHttpRequest(String[] request)
     {
         HashMap<String, String> queryStringTemp= null;
         String[] parts1 = request[0].split(" ");
@@ -52,21 +52,11 @@ public class HttpRequest {
             String[] parts2 = request[1].split(":");
             String host= parts2[1];
 
-            String body = null;
-            if(method == Method.POST){
-                StringBuilder payload = new StringBuilder();
-                while(in.ready()){
-                    payload.append((char) in.read());
-                }
-                body = payload.toString();
-                System.out.println("body : " + body);
-            }
-
-
+            String body = request[2];
             return new HttpRequest(method,host,path,httpVersion,queryStringTemp,body);
 
         }
-        catch (IllegalArgumentException | IOException e) {
+        catch (IllegalArgumentException e) {
             e.printStackTrace();
             return null;
         }
