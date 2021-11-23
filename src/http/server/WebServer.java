@@ -69,6 +69,12 @@ public class WebServer {
           listOfInputs.add(str);
 
         }
+        StringBuilder payload = new StringBuilder();
+        while(in.ready()){
+          payload.append((char) in.read());
+        }
+        listOfInputs.add(payload.toString());
+
         System.out.println(listOfInputs);
         String[]listOfUsableInputs= new String[3];
         listOfUsableInputs[0]= listOfInputs.get(0);
@@ -77,7 +83,7 @@ public class WebServer {
 
 
         System.out.println("listOfUsableInputs: "+listOfUsableInputs[0]+","+listOfUsableInputs[1]+","+listOfUsableInputs[2]);
-         HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs,in);
+         HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
          HttpResponse httpResponse= Router.differentiateCallMethods(httpRequest);
          httpResponse.sendHttpResponse(os);
 

@@ -21,7 +21,7 @@ public class ListPokemon {
         listOfPokemon.add(new Pokemon("Otaria",TypePokemon.EAU, TypePokemon.NOTYPE));
         listOfPokemon.add(new Pokemon("Osselait",TypePokemon.SOL, TypePokemon.NOTYPE));
         listOfPokemon.add(new Pokemon("Macronium",TypePokemon.PLANTE, TypePokemon.NOTYPE));
-        listOfPokemon.add(new Pokemon("Méga-Pharamp",TypePokemon.DRAGON, TypePokemon.ELECTRIK));
+        listOfPokemon.add(new Pokemon("Mega-Pharamp",TypePokemon.DRAGON, TypePokemon.ELECTRIK));
         listOfPokemon.add(new Pokemon("Jungko",TypePokemon.PLANTE, TypePokemon.NOTYPE));
         listOfPokemon.add(new Pokemon("Florges",TypePokemon.FEE, TypePokemon.NOTYPE));
     }
