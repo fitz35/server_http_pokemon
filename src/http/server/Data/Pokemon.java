@@ -1,5 +1,9 @@
 package http.server.Data;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class Pokemon
 {
     private String name;
@@ -52,5 +56,20 @@ public class Pokemon
                 "<td>" + this.getType1() + "</td>" +
                 "<td>" + (this.getType2() == TypePokemon.NOTYPE ? "" : this.getType2()) + "</td>" +
                 "</tr>";
+    }
+
+    public byte[] getPokemonPicture() throws IOException {
+        String pictureName= "images/"+this.name+ ".png";
+        InputStream in = this.getClass().getClassLoader()
+                .getResourceAsStream(pictureName);
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        int nRead;
+        byte[] data = new byte[6000000];
+
+        while ((nRead = in.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        return buffer.toByteArray();
     }
 }

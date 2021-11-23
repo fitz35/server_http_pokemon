@@ -6,6 +6,7 @@ import http.server.Data.ListPokemon;
 import http.server.Data.Pokemon;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -58,7 +59,7 @@ public class WebServer {
         System.out.println("Connection, sending data.");
         BufferedReader in = new BufferedReader(new InputStreamReader(
             remote.getInputStream()));
-        PrintWriter out = new PrintWriter(remote.getOutputStream());
+        DataOutputStream os = new DataOutputStream(remote.getOutputStream());
 
         String str = ".";
         ArrayList<String> listOfInputs= new ArrayList<>();
@@ -78,7 +79,7 @@ public class WebServer {
         System.out.println("listOfUsableInputs: "+listOfUsableInputs[0]+","+listOfUsableInputs[1]+","+listOfUsableInputs[2]);
          HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs,in);
          HttpResponse httpResponse= Router.differentiateCallMethods(httpRequest);
-         httpResponse.sendHttpResponse(out);
+         httpResponse.sendHttpResponse(os);
 
 
 

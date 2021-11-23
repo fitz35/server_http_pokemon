@@ -1,13 +1,16 @@
 package http.server;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class HttpResponse {
     private String httpVersion;
+    private String contentType;
     private int statusCode;
-    private String body;
+    private byte[] body;
     private String textStatusCode;
     private static HashMap<Integer,String> statusCodeMap;
 
@@ -30,8 +33,9 @@ public class HttpResponse {
         return statusCodeMap;
     }
 
-    public HttpResponse(String httpVersion, int statusCode, String body) {
+    public HttpResponse(String httpVersion, int statusCode, byte[]body, String contentType) {
         this.httpVersion = httpVersion;
+        this.contentType=contentType;
         this.statusCode = statusCode;
         this.textStatusCode = statusCodeMap.get(this.statusCode);
         this.body = body;
@@ -41,21 +45,22 @@ public class HttpResponse {
     public String toString() {
         return "HttpResponse{" +
                 "httpVersion='" + httpVersion + '\'' +
+                "Content-Type"+ contentType+ '\'' +
                 ", statusCode=" + statusCode +
                 ", body='" + body + '\'' +
                 ", textStatusCode='" + textStatusCode + '\'' +
                 '}';
     }
 
-    public void sendHttpResponse(PrintWriter out)
-    {
+    public void sendHttpResponse(DataOutputStream os ) throws IOException {
         String line1= this.httpVersion+ " " + this.statusCode+ " " + statusCodeMap.get(statusCode);
-        String line2= "Content-Type: text/html";
+        String line2= "Content-Type:"+ this.contentType;
         String contentLength;
-        String body= "";
+        byte[]body= new byte[6000000];
         if(this.body!=null)
         {
-             contentLength= "Content-Type: "+ this.body.length();
+             contentLength= "Content-Type: "+ this.body.length;
+            byte[] bytesContentLength = contentLength.getBytes();
              body = this.body;
         }
         else {
@@ -63,12 +68,12 @@ public class HttpResponse {
         }
 
 
-        out.println(line1);
-        out.println(line2);
-        out.println(contentLength);
-        out.println();
-        out.println(body);
-        out.flush();
+        os.writeBytes(line1 + "\n");
+        os.writeBytes(line2 + "\n");
+        os.writeBytes(contentLength + "\n");
+        os.writeBytes("\n");
+        os.write(body);
+        os.flush();
 
     }
 }
