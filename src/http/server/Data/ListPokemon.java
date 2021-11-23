@@ -86,4 +86,25 @@ public class ListPokemon {
     }
 
     public void addPokemon(Pokemon newPokemon) {listOfPokemon.add(newPokemon);}
+
+    public boolean removePokemon(String pokemonName)
+    {
+        for(Pokemon pokemon: listOfPokemon)
+        {
+            if(pokemon.getName().compareTo(pokemonName)==0)
+            {
+                listOfPokemon.remove(pokemon);
+                return true;
+            }
+        }
+        return false;
+    }
+    public Pokemon getPokemonByName(String name) {
+        for (Pokemon pokemon : listOfPokemon) {
+            if (pokemon.getName().compareTo(name) == 0) {
+                return pokemon;
+            }
+        }
+        return null;
+    }
 }

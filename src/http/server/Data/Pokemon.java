@@ -25,6 +25,18 @@ public class Pokemon
         return Type2;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType1(TypePokemon type1) {
+        Type1 = type1;
+    }
+
+    public void setType2(TypePokemon type2) {
+        Type2 = type2;
+    }
+
     /**
      * test if this pokemon is the type type
      * @param type the type
