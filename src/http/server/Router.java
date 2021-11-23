@@ -38,8 +38,6 @@ public class Router
 
 
     public static HttpResponse get(HttpRequest httpRequest) throws IOException {
-
-        System.out.println("in get");
         if (httpRequest.getPath().compareTo("/listPokemon") == 0 && httpRequest.getQueryString() == null) {
             System.out.println("in listpokemon");
             ListPokemon listPokemon = WebServer.getListOfPokemon();
