@@ -4,13 +4,12 @@ import http.server.Data.ListPokemon;
 import http.server.Data.Pokemon;
 import http.server.Data.TypePokemon;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Router
 {
@@ -114,7 +113,28 @@ public class Router
             }
             HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, buffer.toByteArray(), "video/mp4");
             return httpResponse;
-        } else {
+        }
+        else if (httpRequest.getPath().compareTo("/") == 0 && httpRequest.getQueryString() == null)
+        {
+            InputStream in = Router.class.getClassLoader()
+                    .getResourceAsStream("html/index.html");
+            String s = new BufferedReader(new InputStreamReader(in))
+                    .lines().collect(Collectors.joining("\n"));
+            HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, s.getBytes(), "text/html");
+            return httpResponse;
+        }
+        else if (httpRequest.getPath().compareTo("/codeMoodle") == 0 && httpRequest.getQueryString() == null)
+        {
+            InputStream in = Router.class.getClassLoader()
+                    .getResourceAsStream("html/codeMoodle.html");
+            String s = new BufferedReader(new InputStreamReader(in))
+                    .lines().collect(Collectors.joining("\n"));
+            HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, s.getBytes(), "text/html");
+            return httpResponse;
+        }
+
+
+        else {
             HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 404, null, "text/html");
             return httpResponse;
          }
