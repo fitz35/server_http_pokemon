@@ -30,7 +30,6 @@ target/
 !lib/**
 
 # Compiled Files
-*.class
 bin/
 out/
 build/
