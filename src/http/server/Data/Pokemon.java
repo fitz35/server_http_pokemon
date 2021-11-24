@@ -4,6 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ *  Class that manages Pokemon used in the application
+ *  @author Tushita Ramkaran and Clement Lahoche
+ *   @version 1.0
+ */
+
 public class Pokemon
 {
     private String name;
@@ -50,6 +56,10 @@ public class Pokemon
         return this.Type1 == type || this.Type2 == type;
     }
 
+    /**
+     * Returns the html content for the representation of a Pokemon
+     * @return
+     */
     public String getHtmlContent(){
         return "<tr>" +
                 "<td>" + this.getName() + "</td>" +
@@ -58,6 +68,11 @@ public class Pokemon
                 "</tr>";
     }
 
+    /**
+     * Returns a byte array for a picture
+     * @return
+     * @throws IOException
+     */
     public byte[] getPokemonPicture() throws IOException {
         String pictureName= "images/"+this.name+ ".png";
         InputStream in = this.getClass().getClassLoader()

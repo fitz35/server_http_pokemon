@@ -15,13 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Example program from Chapter 1 Programming Spiders, Bots and Aggregators in
- * Java Copyright 2001 by Jeff Heaton
+ * class WebServer
+ * Manages connection to Sockets and Data Exchange
  * 
- * WebServer is a very simple web-server. Any request is responded with a very
- * simple web-page.
- * 
- * @author Jeff Heaton
+ * @author Tushita Ramkaran and Clement Lahoche
  * @version 1.0
  */
 public class WebServer {
@@ -29,15 +26,19 @@ public class WebServer {
   private  ServerSocket serverSocket;
   private static ListPokemon listOfPokemon;
 
-
+  /**
+   * Returns the list of Pokemon created in this class
+   * @return ListPokemon
+   */
   public static ListPokemon getListOfPokemon() {
     return listOfPokemon;
   }
 
+  /**
+   * starts the main thread when launching the web server
+   */
 
   protected void start() {
-
-
     System.out.println("Webserver starting up on port 3000");
     System.out.println("(press ctrl-c to exit)");
     try {
@@ -61,6 +62,7 @@ public class WebServer {
             remote.getInputStream()));
         DataOutputStream os = new DataOutputStream(remote.getOutputStream());
 
+        //reading the input from the input Stream until we reach a blank line
         String str = ".";
         ArrayList<String> listOfInputs= new ArrayList<>();
         while (str != null && !str.equals(""))
@@ -69,31 +71,30 @@ public class WebServer {
           listOfInputs.add(str);
 
         }
+
+        //reading the body of the request
         StringBuilder payload = new StringBuilder();
         while(in.ready()){
           payload.append((char) in.read());
         }
         listOfInputs.add(payload.toString());
 
+        //Collection useful data
+        //listOfUsableInputs[0]= first line of the request
+        //listOfUsableInputs[1]= ip Address, number of port
+        //listOfUsableInputs[2]=body
         System.out.println(listOfInputs);
         String[]listOfUsableInputs= new String[3];
         listOfUsableInputs[0]= listOfInputs.get(0);
         listOfUsableInputs[1]=listOfInputs.get(1);
         listOfUsableInputs[2]=listOfInputs.get(listOfInputs.size() - 1);
 
-
+        //Send and process the data before sending an HttpResponse
         System.out.println("listOfUsableInputs: "+listOfUsableInputs[0]+","+listOfUsableInputs[1]+","+listOfUsableInputs[2]);
          HttpRequest httpRequest= HttpRequest.convertRequestToHttpRequest(listOfUsableInputs);
          HttpResponse httpResponse= Router.differentiateCallMethods(httpRequest);
          httpResponse.sendHttpResponse(os);
-
-
-
-        // Send the response
-
-        // Send the HTML page
-
-
+        //close the connection
         remote.close();
       } catch (Exception e) {
         e.printStackTrace();
@@ -107,7 +108,7 @@ public class WebServer {
    * @param args
    *            Command line parameters are not used.
    */
-  public static void main(String args[]) {
+  public static void main(String[] args) {
     WebServer ws = new WebServer();
     ws.start();
   }

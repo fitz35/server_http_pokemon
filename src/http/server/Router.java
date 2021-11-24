@@ -11,8 +11,22 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+/**
+ * class Router
+ * Decides which Method needs to be called for the Http Request depending on the parameters used in the request
+ * (GET/POST/PUT/DELETE)
+ * (HTML/IMAGES/VIDEOS)
+ * @author Tushita Ramkaran and Clement Lahoche
+ * @version 1.0
+ */
 public class Router
 {
+    /**
+     * Calls different methods depending on  the parameters used in the http request
+     * @param httpRequest the httpRequest
+     * @return an Http Response to the httpRequest
+     * @throws IOException
+     */
     public static HttpResponse differentiateCallMethods(HttpRequest httpRequest) throws IOException {
         Method callMethod= httpRequest.getMethod();
 
@@ -31,12 +45,17 @@ public class Router
         {
             return new HttpResponse(httpRequest.getHttpVersion(),404, null, "text/html");
         }
-
     }
 
-
-
+    /**
+     * Used to manage the Method GET
+     * @param httpRequest the Http Request
+     * @return
+     * @throws IOException
+     */
     public static HttpResponse get(HttpRequest httpRequest) throws IOException {
+
+        //to get the list of all pokemons
         if (httpRequest.getPath().compareTo("/listPokemon") == 0 && httpRequest.getQueryString() == null) {
             System.out.println("in listpokemon");
             ListPokemon listPokemon = WebServer.getListOfPokemon();
@@ -44,6 +63,8 @@ public class Router
             byte[] bytesHtmlContent = htmlContent.getBytes();
             HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, bytesHtmlContent, "text/html");
             return httpResponse;
+
+            //to serach for a pokemon in the list
         } else if (httpRequest.getPath().compareTo("/listPokemon/search") == 0 && httpRequest.getQueryString() != null) {
             String nameOfPokemon = null;
             TypePokemon typeOne = null;
@@ -75,7 +96,8 @@ public class Router
             byte[] bytesHtmlContent = htmlContent.getBytes();
             HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, bytesHtmlContent, "text/html");
             return httpResponse;
-        } else if (httpRequest.getPath().compareTo("/listPokemon/images") == 0 && httpRequest.getQueryString() != null) {
+        }   // to get the images of the Pokemon
+            else if (httpRequest.getPath().compareTo("/listPokemon/images") == 0 && httpRequest.getQueryString() != null) {
             System.out.println("in image");
             String nameOfPokemon = null;
             ListPokemon listPokemon = WebServer.getListOfPokemon();
@@ -94,6 +116,8 @@ public class Router
                 return httpResponse;
             }
 
+
+            //To get the video
         } else if (httpRequest.getPath().compareTo("/listPokemon/videos") == 0 && httpRequest.getQueryString() != null) {
             String videoName = null;
             if (httpRequest.getQueryString().containsKey("name")) {
@@ -114,6 +138,8 @@ public class Router
             HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, buffer.toByteArray(), "video/mp4");
             return httpResponse;
         }
+
+            //To get the static ressource html file with all the links
         else if (httpRequest.getPath().compareTo("/") == 0 && httpRequest.getQueryString() == null)
         {
             InputStream in = Router.class.getClassLoader()
@@ -123,6 +149,7 @@ public class Router
             HttpResponse httpResponse = new HttpResponse(httpRequest.getHttpVersion(), 200, s.getBytes(), "text/html");
             return httpResponse;
         }
+        // To get the dynamic ressource page provided by Moodle
         else if (httpRequest.getPath().compareTo("/codeMoodle") == 0 && httpRequest.getQueryString() == null)
         {
             InputStream in = Router.class.getClassLoader()
@@ -142,7 +169,12 @@ public class Router
 
         }
 
-
+    /**
+     * Used to manage the Method POST
+     * @param httpRequest the Http Request
+     * @return
+     * @throws IOException
+     */
 
     public static HttpResponse post(HttpRequest httpRequest) {
         if (httpRequest.getPath().compareTo("/listPokemon") == 0 && httpRequest.getQueryString() == null) {
@@ -198,6 +230,13 @@ public class Router
         }
     }
 
+    /**
+     * Used to manage the Method DELETE
+     * @param httpRequest the Http Request
+     * @return
+     * @throws IOException
+     */
+
     public static HttpResponse delete(HttpRequest httpRequest) {
         if (httpRequest.getPath().compareTo("/listPokemon") == 0 && httpRequest.getQueryString() != null) {
             String nameOfPokemon = null;
@@ -227,6 +266,12 @@ public class Router
             return new HttpResponse(httpRequest.getHttpVersion(), 404, null, "text/html");
         }
     }
+    /**
+     * Used to manage the Method PUT
+     * @param httpRequest the Http Request
+     * @return
+     * @throws IOException
+     */
 
     public static HttpResponse put(HttpRequest httpRequest) {
         String path= httpRequest.getPath();

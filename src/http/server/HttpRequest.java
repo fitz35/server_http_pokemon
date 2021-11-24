@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
+/**
+ *  Class that creates and manages Http Requests
+ *  @author Tushita Ramkaran and Clement Lahoche
+ *   @version 1.0
+ */
 public class HttpRequest {
     private final Method method;
     private final String host;
@@ -22,6 +27,11 @@ public class HttpRequest {
         this.body = body;
     }
 
+    /**
+     * Converts the data sent from the Web Server into an Http Request
+     * @param request the array of Strings sent from the Web Server
+     * @return HttpRequest
+     */
     public static HttpRequest convertRequestToHttpRequest(String[] request)
     {
         HashMap<String, String> queryStringTemp= null;

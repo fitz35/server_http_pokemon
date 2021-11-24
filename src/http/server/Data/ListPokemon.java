@@ -6,6 +6,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ *  Class that manages the list of Pokemon used in the application
+ *  @author Tushita Ramkaran and Clement Lahoche
+ *   @version 1.0
+ */
+
 public class ListPokemon {
     private final ArrayList<Pokemon> listOfPokemon;
 
@@ -14,6 +20,9 @@ public class ListPokemon {
         this.createListPokemon();
     }
 
+    /**
+     * Fills the list with relevant Pokemon data
+     */
     public void createListPokemon() {
         listOfPokemon.add(new Pokemon("Salameche",TypePokemon.FEU, TypePokemon.NOTYPE));
         listOfPokemon.add(new Pokemon("Nidoqueen",TypePokemon.POISON,TypePokemon.SOL));
@@ -73,18 +82,37 @@ public class ListPokemon {
         return s;
     }
 
+    /**
+     * get the html representation of the list of pokemon with filter
+     * @param name filter on name
+     * @param type1 filter on first type
+     * @return the html representation of the list of pokemon
+     */
     public String getHtmlContent(String name, TypePokemon type1){
         return this.getHtmlContent(name, type1, null);
     }
 
+    /**
+     * get the html representation of the list of pokemon with filter
+     * @param name filter on name
+     * @return the html representation of the list of pokemon
+     */
     public String getHtmlContent(String name){
         return this.getHtmlContent(name, null, null);
     }
 
+    /**
+     * get the html representation of the list of pokemon with no filter
+     * @return the html representation of the list of pokemon
+     */
     public String getHtmlContent(){
         return this.getHtmlContent(null, null, null);
     }
 
+    /**
+     * Adds a new Pokemon to the existing list of pokemon
+     * @param newPokemon the pokemon to be added to the list
+     */
     public void addPokemon(Pokemon newPokemon) {listOfPokemon.add(newPokemon);}
 
     public boolean removePokemon(String pokemonName)
@@ -99,6 +127,12 @@ public class ListPokemon {
         }
         return false;
     }
+
+    /**
+     * Return the pokemon having the name specified
+     * @param name the name of the pokemon
+     * @return
+     */
     public Pokemon getPokemonByName(String name) {
         for (Pokemon pokemon : listOfPokemon) {
             if (pokemon.getName().compareTo(name) == 0) {

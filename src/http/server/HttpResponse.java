@@ -6,14 +6,22 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+/**
+ *  Class that creates and manages Http Responses
+ *  @author Tushita Ramkaran and Clement Lahoche
+ *   @version 1.0
+ */
 public class HttpResponse {
-    private String httpVersion;
-    private String contentType;
-    private int statusCode;
-    private byte[] body;
-    private String textStatusCode;
+    private final String httpVersion;
+    private final String contentType;
+    private final int statusCode;
+    private final byte[] body;
+    private final String textStatusCode;
     private static HashMap<Integer,String> statusCodeMap;
 
+    /**
+     * Creates the Map with key= the error codes and value= the error codes in text
+     */
     public static void createStatusCodeMap()
     {
         statusCodeMap= new HashMap<>();
@@ -29,11 +37,7 @@ public class HttpResponse {
 
     }
 
-    public static HashMap<Integer, String> getStatusCodeMap() {
-        return statusCodeMap;
-    }
-
-    public HttpResponse(String httpVersion, int statusCode, byte[]body, String contentType) {
+        public HttpResponse(String httpVersion, int statusCode, byte[]body, String contentType) {
         this.httpVersion = httpVersion;
         this.contentType=contentType;
         this.statusCode = statusCode;
@@ -52,6 +56,11 @@ public class HttpResponse {
                 '}';
     }
 
+    /**
+     * Sends the created Http Response through a Data Stream Output
+     * @param os the Data Stream Output
+     * @throws IOException
+     */
     public void sendHttpResponse(DataOutputStream os ) throws IOException {
         String line1= this.httpVersion+ " " + this.statusCode+ " " + statusCodeMap.get(statusCode);
         String line2= "Content-Type:"+ this.contentType;
